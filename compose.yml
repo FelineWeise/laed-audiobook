@@ -1,0 +1,16 @@
+# Stub for a later hosted worker on llm-backbone.
+# v1 is Mac CLI only; this file documents the intended network attachment.
+services:
+  audiobook-api:
+    profiles: ["hosted"]
+    build: .
+    environment:
+      - LLM_GATEWAY_URL=http://litellm:4000/v1
+      - LLM_GATEWAY_KEY=${LLM_GATEWAY_KEY}
+    networks:
+      - llm-backbone
+    restart: unless-stopped
+
+networks:
+  llm-backbone:
+    external: true
