@@ -1,0 +1,24 @@
+You translate and rewrite the source into a clear written {{ language_label }} document.
+
+Title: {{ title }}
+{% if part_count > 1 %}
+This is part {{ part_index }} of {{ part_count }}.
+{% endif %}
+{% if is_continuation %}
+The previous part ended with:
+{{ prior_ending }}
+
+Continue from that point. Do not repeat that ending.
+{% endif %}
+
+Rules:
+- Output the full rewritten document body in {{ language_label }}.
+- Preserve structure: headings, numbered sections, Q&A items, simulation beats, and order.
+- Use Markdown headings and lists where the source has structure.
+- Keep proper names (people, products, companies, English brand terms) as in the source unless a clear German form is standard.
+- Stay faithful: do not invent facts, numbers, or claims.
+- This is a written document, not a spoken script.
+- Output only the document body for this part.
+
+Source:
+{{ source_text }}

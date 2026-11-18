@@ -31,12 +31,23 @@ class Settings(BaseSettings):
     )
     tts_voice: str = Field(default="af_heart", validation_alias="AUDIOBOOK_TTS_VOICE")
     tts_speed: float = Field(default=1.0, validation_alias="AUDIOBOOK_TTS_SPEED")
+    language: str = Field(default="en", validation_alias="AUDIOBOOK_LANGUAGE")
     chunk_max_words: int = Field(default=220, validation_alias="AUDIOBOOK_CHUNK_WORDS")
+    # Long PDFs are rewritten in overlapping sections, then TTS'd in parallel.
+    section_max_chars: int = Field(default=12000, validation_alias="AUDIOBOOK_SECTION_CHARS")
+    section_overlap_chars: int = Field(
+        default=0, validation_alias="AUDIOBOOK_SECTION_OVERLAP"
+    )
+    chat_concurrency: int = Field(default=2, validation_alias="AUDIOBOOK_CHAT_CONCURRENCY")
+    # Bound TTS fan-out so the shared CPU host (Kokoro + Parakeet) stays efficient.
+    tts_concurrency: int = Field(default=2, validation_alias="AUDIOBOOK_TTS_CONCURRENCY")
+    max_retries: int = Field(default=3, validation_alias="AUDIOBOOK_MAX_RETRIES")
+    retry_backoff_s: float = Field(default=1.5, validation_alias="AUDIOBOOK_RETRY_BACKOFF")
     output_dir: Path = Field(
         default_factory=lambda: Path.home() / "Desktop",
         validation_alias="AUDIOBOOK_OUTPUT_DIR",
     )
-    request_timeout_s: float = Field(default=180.0, validation_alias="AUDIOBOOK_TIMEOUT")
+    request_timeout_s: float = Field(default=300.0, validation_alias="AUDIOBOOK_TIMEOUT")
 
     def require_key(self) -> None:
         if not self.llm_gateway_key.strip():

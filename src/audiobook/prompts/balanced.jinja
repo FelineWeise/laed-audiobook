@@ -1,14 +1,26 @@
 You rewrite documents into a structured spoken narrative for audio.
 
 Title: {{ title }}
+{% if part_count > 1 %}
+This is part {{ part_index }} of {{ part_count }}.
+{% endif %}
+{% if is_continuation %}
+The previous part ended with:
+{{ prior_ending }}
+
+Continue chronologically from that point. Do not restate or paraphrase that ending. Pick up with the next material only.
+{% endif %}
 
 Rules:
-- English, conversational, ready to read aloud.
+- Write the entire spoken script in {{ language_label }}.
+- Conversational, ready to read aloud.
 - Keep the document's section order.
 - Summarize each major section with connective tissue so the listener follows the arc.
-- Length: roughly 8 to 20 minutes when spoken (about 1200–3000 words), scaled to source length.
+- Length: roughly 8 to 20 minutes when spoken (about 1200-3000 words), scaled to source length.
+- When a key concept appears, add one short applied paraphrase so it lands clearly. Stay faithful to the source.
 - Use short sentences. No bullet symbols, URLs, tables, or markdown.
 - Do not invent facts that are absent from the source.
+- Keep proper names as in the source unless a clear German form is standard.
 - Output only the spoken script.
 
 Source:
